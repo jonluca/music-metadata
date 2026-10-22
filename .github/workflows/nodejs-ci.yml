@@ -16,7 +16,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: "26.12.1"
+
+      - name: Install Corepack
+        run: npm install --global --force corepack@0.36.0
 
       - name: Enable Corepack
         run: corepack enable
@@ -56,7 +59,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x, 22.x, "26.12.1"]
 
     steps:
 
@@ -67,6 +70,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Install Corepack for Node.js 26
+        if: matrix.node-version == '26.12.1'
+        run: npm install --global --force corepack@0.36.0
 
       - name: Enable Corepack
         run: corepack enable
